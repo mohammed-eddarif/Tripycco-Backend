@@ -1,0 +1,44 @@
+services:
+  postgres:
+    container_name: tripycco-postgres
+    image: postgres
+    environment:
+      POSTGRES_USER: username
+      POSTGRES_PASSWORD: password
+      PGDATA: /var/lib/postgresql/data
+      POSTGRES_DB: tripycco
+    volumes:
+      - postgres:/data/postgres
+      - ./init-keycloak-db.sql:/docker-entrypoint-initdb.d/init-keycloak-db.sql
+    ports:
+      - "5432:5432"
+    networks:
+      - tripycco-backend
+    restart: unless-stopped
+
+  keycloak:
+    container_name: tripycco-keycloak
+    image: quay.io/keycloak/keycloak:latest
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres:5432/tripycco-keycloakDB
+      KC_DB_USERNAME: username
+      KC_DB_PASSWORD: password
+    ports:
+      - "8181:8080"
+    depends_on:
+      - postgres
+    networks:
+      - tripycco-backend
+    command: [ "start-dev" ]
+    restart: unless-stopped
+
+networks:
+  tripycco-backend:
+    driver: bridge
+
+volumes:
+  postgres:
+    driver: local
