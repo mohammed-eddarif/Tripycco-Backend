@@ -5,7 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -16,12 +17,12 @@ import java.util.UUID;
 public class AgencyProfile {
 
     @Id
-    @Column(name = "user_id")
-    private UUID userId;
+    @Column(name = "agency_id")
+    private UUID agencyId;
 
     @OneToOne(fetch = FetchType.LAZY)
     @MapsId
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "agency_id")
     private AppUser user;
 
     @Column(name = "agency_name")
@@ -33,14 +34,28 @@ public class AgencyProfile {
     @Column(name = "business_license_url")
     private String businessLicenseUrl;
 
+    // Reasons for approval or rejection verification
     @Column(name = "verification_notes")
     private String verificationNotes;
 
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private String bio;
 
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
+    private String profilePicture;
+
+    @OneToMany(mappedBy = "agencyProfile", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Trip> trips = new ArrayList<>();
+
+    @OneToMany(mappedBy = "agencyProfile", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AgencyReview> reviews = new ArrayList<>();
+
+    public void addTrip(Trip trip) {
+        trips.add(trip);
+        trip.setAgencyProfile(this);
     }
+
+    public void removeTrip(Trip trip) {
+        trips.remove(trip);
+        trip.setAgencyProfile(null);
+    }
+
 }

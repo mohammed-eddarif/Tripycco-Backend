@@ -10,9 +10,7 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Table(name = "trip")
@@ -25,13 +23,18 @@ public class Trip {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @Column(name = "agency_id", nullable = false)
-    private UUID agencyId;
-
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "agency_id", insertable = false, updatable = false)
-    private AppUser agency;
+    @JoinColumn(name = "agency_profile", nullable = false)
+    private AgencyProfile agencyProfile;
+
+    @ElementCollection
+    @CollectionTable(
+            name = "trip_images",
+            joinColumns = @JoinColumn(name = "trip_id")
+    )
+    @Column(name = "image_url")
+    @OrderColumn(name = "image_position")  // This maintains order in database
+    private List<String> tripPictureUrls = new ArrayList<>();
 
     @NotNull
     private String title;
@@ -62,10 +65,14 @@ public class Trip {
             joinColumns = @JoinColumn(name = "trip_id")
     )
     @Column(name = "destination")
-    private Set<String> destinations = new HashSet<>();
+    @OrderColumn(name = "destination_position")
+    private List<String> destinations = new ArrayList<>();
 
-    @OneToMany(mappedBy = "trip")
-    private Set<Booking> bookings = new HashSet<>();
+    @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Booking> bookings = new ArrayList<>();
+
+    @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TripReview> reviews = new ArrayList<>();
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;

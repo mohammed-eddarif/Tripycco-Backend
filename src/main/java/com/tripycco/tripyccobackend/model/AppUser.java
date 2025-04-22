@@ -44,6 +44,12 @@ public class AppUser {
     @Column(name = "phone_number")
     private String phoneNumber;
 
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private AgencyProfile agencyProfile;
+
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private TravelerProfile travelerProfile;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 

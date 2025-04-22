@@ -23,22 +23,6 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @Column(name = "traveler_id")
-    private UUID travelerId;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "traveler_id", insertable = false, updatable = false)
-    private AppUser traveler;
-
-    @NotNull
-    @Column(name = "trip_id")
-    private Long tripId;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "trip_id", insertable = false, updatable = false)
-    private Trip trip;
-
     @Column(name = "booking_date")
     private LocalDateTime bookingDate;
 
@@ -53,6 +37,14 @@ public class Booking {
     @Column(name = "payment_status")
     @Enumerated(EnumType.STRING)
     private PaymentStatus paymentStatus = PaymentStatus.UNPAID;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "traveler_profile_id", nullable = false)
+    private TravelerProfile travelerProfile;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "trip_id", nullable = false)
+    private Trip trip;
 
     @PrePersist
     protected void onCreate() {

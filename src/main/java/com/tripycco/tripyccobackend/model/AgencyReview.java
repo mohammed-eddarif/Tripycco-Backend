@@ -22,21 +22,13 @@ public class AgencyReview {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @Column(name = "agency_id")
-    private UUID agencyId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "agency_id")
+    private AgencyProfile agencyProfile;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "agency_id", insertable = false, updatable = false)
-    private AppUser agency;
-
-    @NotNull
-    @Column(name = "reviewer_id")
-    private UUID reviewerId;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "reviewer_id", insertable = false, updatable = false)
-    private AppUser reviewer;
+    @JoinColumn(name = "traveler_id")
+    private TravelerProfile travelerProfile;
 
     @Min(1)
     @Max(5)
