@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.Set;
+import java.util.HashSet;
 
 @Entity
 @Table(name = "agency_profile")
@@ -43,7 +45,7 @@ public class AgencyProfile {
     private String profilePicture;
 
     @OneToMany(mappedBy = "agencyProfile", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Trip> trips = new ArrayList<>();
+    private Set<Trip> trips = new HashSet<>();
 
     @OneToMany(mappedBy = "agencyProfile", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AgencyReview> reviews = new ArrayList<>();
