@@ -16,8 +16,12 @@ import java.util.UUID;
 @RequestMapping("/api/trips")
 public class TripController {
 
-    @Autowired
-    private TripService tripService;
+
+    private final TripService tripService;
+
+    public TripController(TripService tripService) {
+        this.tripService = tripService;
+    }
 
     @PostMapping("/{agencyId}")
     public ResponseEntity<ResponseObject<List<Trip>>> createTrip(@RequestBody Trip trip, @PathVariable UUID agencyId) {

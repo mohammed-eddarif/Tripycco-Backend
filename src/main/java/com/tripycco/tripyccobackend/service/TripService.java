@@ -15,11 +15,13 @@ import java.util.UUID;
 @Service
 public class TripService {
 
-    @Autowired
-    private TripRepository tripRepository;
+    private final TripRepository tripRepository;
+    private final AgencyProfileRepository agencyProfileRepository;
 
-    @Autowired
-    private AgencyProfileRepository agencyProfileRepository;
+    public TripService(TripRepository tripRepository, AgencyProfileRepository agencyProfileRepository) {
+        this.tripRepository = tripRepository;
+        this.agencyProfileRepository = agencyProfileRepository;
+    }
 
     public void createTrip(Trip trip, UUID agencyId) {
         AgencyProfile agencyProfile = agencyProfileRepository.findById(agencyId)
