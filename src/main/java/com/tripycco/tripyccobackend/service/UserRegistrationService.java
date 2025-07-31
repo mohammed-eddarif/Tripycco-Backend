@@ -15,14 +15,18 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class UserRegistrationService {
 
-    @Autowired
-    private AppUserRepository userRepository;
 
-    @Autowired
-    private TravelerProfileRepository travelerProfileRepository;
+    private final AppUserRepository userRepository;
 
-    @Autowired
-    private AgencyProfileRepository agencyProfileRepository;
+    private final TravelerProfileRepository travelerProfileRepository;
+
+    private final AgencyProfileRepository agencyProfileRepository;
+
+    public UserRegistrationService(AppUserRepository userRepository, TravelerProfileRepository travelerProfileRepository, AgencyProfileRepository agencyProfileRepository) {
+        this.userRepository = userRepository;
+        this.travelerProfileRepository = travelerProfileRepository;
+        this.agencyProfileRepository = agencyProfileRepository;
+    }
 
     @Transactional
     public AppUser registerUser(UserRegistrationRequest request) {

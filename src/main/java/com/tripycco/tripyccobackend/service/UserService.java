@@ -10,8 +10,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
-    @Autowired
-    private AppUserRepository userRepository;
+
+    private final AppUserRepository userRepository;
+
+    public UserService(AppUserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     public AppUser getCurrentUser(Authentication authentication) {
         Jwt jwt = (Jwt) authentication.getPrincipal();
