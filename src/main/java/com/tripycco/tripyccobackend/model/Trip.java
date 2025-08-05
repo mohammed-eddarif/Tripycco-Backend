@@ -3,9 +3,7 @@ package com.tripycco.tripyccobackend.model;
 import com.tripycco.tripyccobackend.enums.TripStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -16,7 +14,8 @@ import java.util.*;
 @Table(name = "trip")
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Setter
+@Getter
 public class Trip {
 
     @Id

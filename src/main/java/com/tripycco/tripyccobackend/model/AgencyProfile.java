@@ -1,9 +1,7 @@
 package com.tripycco.tripyccobackend.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +13,8 @@ import java.util.HashSet;
 @Table(name = "agency_profile")
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Setter
+@Getter
 public class AgencyProfile {
 
     @Id

@@ -1,9 +1,7 @@
 package com.tripycco.tripyccobackend.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.*;
 
@@ -11,7 +9,8 @@ import java.util.*;
 @Table(name = "traveler_profile")
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Setter
+@Getter
 public class TravelerProfile {
 
     @Id
